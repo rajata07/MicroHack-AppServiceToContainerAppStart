@@ -62,4 +62,4 @@ jobs:
         resourceGroup: MicroHack-AppServiceToContainerApp
         containerAppEnvironment: managedEnvironment-MicroHackAppSer-a12b
         containerAppName: microhack-containerapp
-        targetPort: 8080
+        targetPort: 80
