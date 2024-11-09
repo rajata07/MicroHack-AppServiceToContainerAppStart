@@ -60,6 +60,6 @@ jobs:
         acrUsername: ${{ secrets.ACR_USERNAME }}
         acrPassword: ${{ secrets.ACR_PASSWORD }}
         resourceGroup: MicroHack-AppServiceToContainerApp
-        containerAppEnvironment: microhack-containerappenvironment
+        containerAppEnvironment: managedEnvironment-MicroHackAppSer-a12b
         containerAppName: microhack-containerapp
         targetPort: 8080
