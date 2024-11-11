@@ -6,22 +6,12 @@ name: Build and Deploy to Container App - v0
 on:
   workflow_dispatch:
 
-permissions:
-  id-token: write
-
 jobs:
   build:
     name: Build and test solution
     runs-on: ubuntu-latest
 
     steps:
-    - name: Login to Azure
-      uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
     - uses: actions/checkout@v4
     
     - name: Get Latest Container Image Tag
@@ -38,14 +28,3 @@ jobs:
         az acr login --name microhackcontainerregistryrajat --username ${{ secrets.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }} &&
         docker build -t microhackcontainerregistryrajat.azurecr.io/microhackapp:${{ steps.get_tag.outputs.image_tag }} -f Dockerfile . &&
         docker push microhackcontainerregistryrajat.azurecr.io/microhackapp:${{ steps.get_tag.outputs.image_tag }}
-
-    - name: Deploy to Container App
-      uses: azure/container-apps-deploy-action@v2
-      with:
-        imageToDeploy: microhackcontainerregistryrajat.azurecr.io/microhackapp:${{ steps.get_tag.outputs.image_tag }}
-        acrUsername: ${{ secrets.ACR_USERNAME }}
-        acrPassword: ${{ secrets.ACR_PASSWORD }}
-        resourceGroup: MicroHack-AppServiceToContainerApp
-        containerAppEnvironment: managedEnvironment-MicroHackAppSer-a12b
-        containerAppName: microhack-containerapp
-        targetPort: 80
